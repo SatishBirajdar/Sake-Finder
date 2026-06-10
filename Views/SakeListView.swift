@@ -9,13 +9,17 @@ struct SakeListView: View {
     @EnvironmentObject private var favourites: FavouritesStore
 
     @State private var searchText = ""
+    /// Trails `searchText` by a short delay so filtering doesn't run on every keystroke.
+    @State private var debouncedQuery = ""
+
+    private static let searchDebounce = Duration.milliseconds(250)
 
     private var visibleShops: [SakeShop] {
-        viewModel.shops(matching: searchText)
+        viewModel.shops(matching: debouncedQuery)
     }
 
     private var isSearching: Bool {
-        !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        !debouncedQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     var body: some View {
@@ -26,6 +30,11 @@ struct SakeListView: View {
                 .toolbar { toolbarContent }
         }
         .searchable(text: $searchText, prompt: AppStrings.List.searchPlaceholder)
+        .task(id: searchText) {
+            // Cancelled and restarted on each keystroke; only the final pause commits.
+            guard (try? await Task.sleep(for: Self.searchDebounce)) != nil else { return }
+            debouncedQuery = searchText
+        }
     }
 
     @ViewBuilder
