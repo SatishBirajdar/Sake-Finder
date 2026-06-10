@@ -7,7 +7,13 @@ struct SakeListView: View {
         NavigationStack {
             Group {
                 if viewModel.isLoading {
-                    ProgressView("Loading sake shops...")
+                    VStack(spacing: 12) {
+                        ProgressView()
+                        Text("Loading sake shops...")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if let errorMessage = viewModel.errorMessage {
                     VStack(spacing: 12) {
                         Image(systemName: "exclamationmark.triangle")
@@ -23,12 +29,16 @@ struct SakeListView: View {
                         NavigationLink(destination: SakeDetailView(shop: shop)) {
                             SakeShopRow(shop: shop)
                         }
-                        .padding(.vertical, 4)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 6, leading: 14, bottom: 6, trailing: 14))
                     }
                     .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background(Color(.systemGroupedBackground))
                 }
             }
             .navigationTitle("Sake Finder")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Label("Discover", systemImage: "magnifyingglass")
@@ -72,11 +82,11 @@ struct SakeShopRow: View {
 
             VStack(alignment: .leading, spacing: 6) {
                 Text(shop.name)
-                    .font(.headline)
+                    .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.primary)
 
                 Label(shop.address, systemImage: "mappin.and.ellipse")
-                    .font(.subheadline)
+                    .font(.caption)
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
 
@@ -84,6 +94,11 @@ struct SakeShopRow: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.vertical, 4)
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 18)
+                .fill(Color(.secondarySystemBackground))
+                .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
+        )
     }
 }

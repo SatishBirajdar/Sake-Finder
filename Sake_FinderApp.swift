@@ -4,7 +4,7 @@ import SwiftUI
 struct Sake_FinderApp: App {
     var body: some Scene {
         WindowGroup {
-            SakeListView()
+            LaunchView()
         }
     }
 }

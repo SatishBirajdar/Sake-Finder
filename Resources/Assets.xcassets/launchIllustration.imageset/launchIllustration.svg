@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#FFF4D6"/>
+      <stop offset="100%" stop-color="#F4C27A"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="320" rx="32" fill="url(#bg)"/>
+  <circle cx="310" cy="70" r="38" fill="#FFB163" opacity="0.4"/>
+  <circle cx="92" cy="78" r="18" fill="#FFFFFF" opacity="0.5"/>
+  <rect x="78" y="118" width="244" height="110" rx="24" fill="#FFF7ED"/>
+  <path d="M120 180 C150 130, 190 130, 220 180" fill="none" stroke="#D47A3A" stroke-width="10" stroke-linecap="round"/>
+  <path d="M220 180 C250 130, 290 130, 320 180" fill="none" stroke="#B56B2C" stroke-width="10" stroke-linecap="round"/>
+  <rect x="140" y="194" width="120" height="18" rx="9" fill="#2A3B57" opacity="0.15"/>
+  <rect x="136" y="56" width="128" height="38" rx="19" fill="#FFF" opacity="0.65"/>
+  <text x="156" y="82" font-size="18" font-family="Arial, sans-serif" fill="#7A4F2F">Sake Finder</text>
+</svg>
