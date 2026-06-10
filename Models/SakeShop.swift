@@ -5,7 +5,7 @@ import Foundation
 /// - Note: ``id`` is generated locally and is only stable within a single decode
 ///   pass. Persisted references (e.g. favourites) should key off ``name`` rather
 ///   than ``id``.
-struct SakeShop: Identifiable, Codable, Equatable {
+struct SakeShop: Identifiable, Codable, Equatable, Hashable {
     let id = UUID()
     let name: String
     let description: String

@@ -21,7 +21,6 @@ enum AppTheme {
         static let thumbnailSize: CGFloat = 50
         static let detailImageHeight: CGFloat = 220
         static let cardPadding: CGFloat = 12
-        static let searchFieldMinWidth: CGFloat = 200
 
         static let listRowVerticalInset: CGFloat = 6
         static let listRowHorizontalInset: CGFloat = 14
@@ -36,11 +35,13 @@ enum AppTheme {
         static let photo = "photo"
         static let star = "star"
         static let starFill = "star.fill"
+        static let starHalf = "star.leadinghalf.filled"
         static let mapPin = "mappin.and.ellipse"
         static let location = "location"
         static let globe = "globe"
         static let openLink = "arrow.up.right.square"
         static let popularTab = "list.star"
         static let warning = "exclamationmark.triangle"
+        static let noImage = "noImage"
     }
 }

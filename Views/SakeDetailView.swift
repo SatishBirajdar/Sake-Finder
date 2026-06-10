@@ -1,20 +1,16 @@
 import SwiftUI
 
-/// Detail screen for a single shop: hero image, rating, description, address
-/// and website link, plus a favourite toggle in the navigation bar.
+/// Detail screen for a single shop: a hero image with the shop name overlaid,
+/// followed by carded sections for the rating/description, address and website.
 struct SakeDetailView: View {
     let shop: SakeShop
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: AppTheme.Layout.contentSpacing) {
-                RemoteImageView(url: shop.pictureURL,
-                                height: AppTheme.Layout.detailImageHeight,
-                                cornerRadius: AppTheme.Layout.detailImageCornerRadius)
-                    .frame(maxWidth: .infinity)
-
-                summarySection
-                addressSection
+                hero
+                summarySection.cardBackground()
+                addressSection.cardBackground()
                 websiteSection
             }
             .padding()
@@ -22,6 +18,7 @@ struct SakeDetailView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle(AppStrings.Detail.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 FavouriteButton(shop: shop, inactiveColor: .primary)
@@ -29,11 +26,33 @@ struct SakeDetailView: View {
         }
     }
 
+    /// Hero image with a bottom gradient scrim and the shop name overlaid.
+    private var hero: some View {
+        RemoteImageView(url: shop.pictureURL,
+                        height: AppTheme.Layout.detailImageHeight,
+                        cornerRadius: AppTheme.Layout.detailImageCornerRadius,
+                        loadingTint: .orange)
+            .frame(maxWidth: .infinity)
+            .overlay(alignment: .bottom) {
+                LinearGradient(
+                    colors: [.clear, .black.opacity(0.55)],
+                    startPoint: .center,
+                    endPoint: .bottom
+                )
+                .allowsHitTesting(false)
+            }
+            .overlay(alignment: .bottomLeading) {
+                Text(shop.name)
+                    .font(.title.weight(.bold))
+                    .foregroundStyle(.white)
+                    .shadow(radius: 4)
+                    .padding()
+            }
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.Layout.detailImageCornerRadius))
+    }
+
     private var summarySection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(shop.name)
-                .font(.title2.weight(.semibold))
-
             RatingView(rating: shop.rating)
 
             Text(shop.description)
@@ -73,6 +92,7 @@ struct SakeDetailView: View {
                         .foregroundStyle(.blue)
                 }
             }
+            .cardBackground()
         }
     }
 }

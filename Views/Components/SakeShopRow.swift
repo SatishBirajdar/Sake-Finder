@@ -28,12 +28,6 @@ struct SakeShopRow: View {
 
             FavouriteButton(shop: shop)
         }
-        .padding(AppTheme.Layout.cardPadding)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: AppTheme.Layout.cardCornerRadius)
-                .fill(Color(.secondarySystemBackground))
-                .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
-        )
+        .cardBackground()
     }
 }

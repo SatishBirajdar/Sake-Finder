@@ -15,14 +15,16 @@ struct FavouriteButton: View {
 
     var body: some View {
         Button {
-            favourites.toggle(shop)
+            withAnimation(.snappy) { favourites.toggle(shop) }
         } label: {
             Image(systemName: isFavourite ? AppTheme.Icon.heartFill : AppTheme.Icon.heart)
                 .font(.system(size: size))
                 .foregroundStyle(isFavourite ? .red : inactiveColor)
+                .symbolEffect(.bounce, value: isFavourite)
                 .padding(4)
         }
         .buttonStyle(.borderless)
+        .sensoryFeedback(.impact(flexibility: .soft), trigger: isFavourite)
         .accessibilityLabel(isFavourite ? AppStrings.Favourite.remove : AppStrings.Favourite.add)
     }
 }

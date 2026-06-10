@@ -18,14 +18,18 @@ struct ShopListView: View {
 
     var body: some View {
         List(shops) { shop in
-            NavigationLink(destination: SakeDetailView(shop: shop)) {
+            NavigationLink(value: shop) {
                 SakeShopRow(shop: shop)
             }
+            .buttonStyle(CardButtonStyle())
             .listRowSeparator(.hidden)
             .listRowInsets(rowInsets)
         }
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(Color(.systemGroupedBackground))
+        .navigationDestination(for: SakeShop.self) { shop in
+            SakeDetailView(shop: shop)
+        }
     }
 }

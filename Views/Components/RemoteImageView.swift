@@ -12,6 +12,8 @@ struct RemoteImageView: View {
     var height: CGFloat?
     var cornerRadius: CGFloat = AppTheme.Layout.thumbnailCornerRadius
     var contentMode: ContentMode = .fill
+    /// When set, a centred spinner of this colour is shown while downloading.
+    var loadingTint: Color?
 
     var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius)
@@ -27,7 +29,14 @@ struct RemoteImageView: View {
         AsyncImage(url: url) { phase in
             switch phase {
             case .empty:
-                ProgressView()
+                if let loadingTint {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .tint(loadingTint)
+                } else {
+                    Image(systemName: AppTheme.Icon.photo)
+                        .foregroundStyle(.secondary)
+                }
             case .success(let image):
                 image
                     .resizable()

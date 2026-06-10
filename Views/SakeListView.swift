@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The "Popular" tab: a searchable list of all sake shops.
+/// The "Popular" tab: a searchable, refreshable list of all sake shops.
 ///
 /// Observes the shared ``SakeListViewModel`` for data and delegates rows,
 /// list styling and state messages to reusable components.
@@ -9,19 +9,23 @@ struct SakeListView: View {
     @EnvironmentObject private var favourites: FavouritesStore
 
     @State private var searchText = ""
-    @State private var isSearching = false
 
     private var visibleShops: [SakeShop] {
         viewModel.shops(matching: searchText)
     }
 
+    private var isSearching: Bool {
+        !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
     var body: some View {
         NavigationStack {
             content
-                .navigationTitle(isSearching ? "" : AppStrings.List.title)
+                .navigationTitle(AppStrings.List.title)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar { toolbarContent }
         }
+        .searchable(text: $searchText, prompt: AppStrings.List.searchPlaceholder)
     }
 
     @ViewBuilder
@@ -36,8 +40,15 @@ struct SakeListView: View {
                 actionTitle: AppStrings.ErrorMessage.retry,
                 action: { Task { await viewModel.retry() } }
             )
+        } else if visibleShops.isEmpty && isSearching {
+            MessageView(
+                systemImage: AppTheme.Icon.search,
+                title: AppStrings.List.noResultsTitle,
+                message: AppStrings.List.noResultsMessage
+            )
         } else {
             ShopListView(shops: visibleShops)
+                .refreshable { await viewModel.retry() }
         }
     }
 
@@ -55,26 +66,6 @@ struct SakeListView: View {
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             FavouritesBadge(count: favourites.favouriteNames.count)
-        }
-
-        ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                withAnimation(.easeInOut) {
-                    isSearching.toggle()
-                    if !isSearching { searchText = "" }
-                }
-            } label: {
-                Image(systemName: isSearching ? AppTheme.Icon.close : AppTheme.Icon.search)
-                    .foregroundStyle(.secondary)
-            }
-        }
-
-        if isSearching {
-            ToolbarItem(placement: .principal) {
-                TextField(AppStrings.List.searchPlaceholder, text: $searchText)
-                    .textFieldStyle(.roundedBorder)
-                    .frame(minWidth: AppTheme.Layout.searchFieldMinWidth)
-            }
         }
     }
 }

@@ -15,6 +15,8 @@ enum AppStrings {
         static let title = "Sake Finder"
         static let searchPlaceholder = "Search shops"
         static let loading = "Loading sake shops..."
+        static let noResultsTitle = "No matches"
+        static let noResultsMessage = "No shops match your search. Try a different term."
     }
 
     enum Favourites {
