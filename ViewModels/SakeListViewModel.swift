@@ -6,9 +6,9 @@ final class SakeListViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
 
-    private let service: SakeServiceProtocol
+    private let service: any SakeServiceProtocol & Sendable
 
-    init(service: SakeServiceProtocol = SakeAPIClient()) {
+    init(service: any SakeServiceProtocol & Sendable = SakeAPIClient()) {
         self.service = service
     }
 

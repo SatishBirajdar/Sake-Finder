@@ -1,10 +1,10 @@
 import Foundation
 
-protocol SakeServiceProtocol {
+protocol SakeServiceProtocol: Sendable {
     func fetchSakeShops() async throws -> [SakeShop]
 }
 
-final class SakeAPIClient: SakeServiceProtocol {
+final class SakeAPIClient: SakeServiceProtocol, @unchecked Sendable {
     private let session: URLSession
     private let endpoint: URL?
 
