@@ -17,8 +17,7 @@ struct SakeDetailView: View {
                         image
                             .resizable()
                             .scaledToFill()
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 220)
+                            .frame(width: UIScreen.main.bounds.width - 32, height: 220)
                             .clipped()
                             .clipShape(RoundedRectangle(cornerRadius: 24))
                     case .failure:

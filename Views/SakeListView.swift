@@ -2,6 +2,18 @@ import SwiftUI
 
 struct SakeListView: View {
     @StateObject private var viewModel = SakeListViewModel()
+    @State private var searchText = ""
+    @State private var isSearching = false
+
+    private var filteredShops: [SakeShop] {
+        guard !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return viewModel.shops
+        }
+
+        return viewModel.shops.filter {
+            $0.name.localizedCaseInsensitiveContains(searchText)
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -25,7 +37,7 @@ struct SakeListView: View {
                     }
                     .padding()
                 } else {
-                    List(viewModel.shops) { shop in
+                    List(filteredShops) { shop in
                         NavigationLink(destination: SakeDetailView(shop: shop)) {
                             SakeShopRow(shop: shop)
                         }
@@ -37,12 +49,29 @@ struct SakeListView: View {
                     .background(Color(.systemGroupedBackground))
                 }
             }
-            .navigationTitle("Sake Finder")
+            .navigationTitle(isSearching ? "" : "Sake Finder")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Label("Discover", systemImage: "magnifyingglass")
-                        .foregroundStyle(.secondary)
+                    Button {
+                        withAnimation(.easeInOut) {
+                            isSearching.toggle()
+                            if !isSearching {
+                                searchText = ""
+                            }
+                        }
+                    } label: {
+                        Image(systemName: isSearching ? "xmark" : "magnifyingglass")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                if isSearching {
+                    ToolbarItem(placement: .principal) {
+                        TextField("Search shops", text: $searchText)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(minWidth: 200)
+                    }
                 }
             }
             .task {
