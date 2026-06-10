@@ -4,6 +4,7 @@ struct SakeListView: View {
     @StateObject private var viewModel = SakeListViewModel()
     @State private var searchText = ""
     @State private var isSearching = false
+    @State private var hasLoadedOnce = false
 
     private var filteredShops: [SakeShop] {
         guard !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
@@ -75,6 +76,8 @@ struct SakeListView: View {
                 }
             }
             .task {
+                guard !hasLoadedOnce else { return }
+                hasLoadedOnce = true
                 await viewModel.loadShops()
             }
         }
