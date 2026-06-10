@@ -1,3 +1,10 @@
+//
+//  RatingView.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import SwiftUI
 
 /// Displays a 0–5 star rating with the numeric value alongside.

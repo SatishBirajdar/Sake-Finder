@@ -1,3 +1,10 @@
+//
+//  ShopListView.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import SwiftUI
 
 /// Scrollable list of shops with navigation into the detail screen.

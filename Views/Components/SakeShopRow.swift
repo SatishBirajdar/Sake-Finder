@@ -1,3 +1,10 @@
+//
+//  SakeShopRow.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import SwiftUI
 
 /// A single row in the shop lists: thumbnail, name, address, rating and a

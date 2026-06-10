@@ -1,3 +1,10 @@
+//
+//  SakeListViewModel.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import Foundation
 
 /// Presentation logic for the shop list: loads data through an injected

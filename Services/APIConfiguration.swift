@@ -1,3 +1,10 @@
+//
+//  APIConfiguration.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import Foundation
 
 /// Configuration for the sake networking layer.

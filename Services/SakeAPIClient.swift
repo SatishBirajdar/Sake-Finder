@@ -1,3 +1,10 @@
+//
+//  SakeAPIClient.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import Foundation
 
 /// Concrete networking client for fetching sake shops.

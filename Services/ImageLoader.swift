@@ -1,3 +1,10 @@
+//
+//  ImageLoader.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import UIKit
 import ImageIO
 
@@ -55,21 +62,29 @@ actor ImageLoader {
 
     /// Decodes `data` into a thumbnail no larger than `maxPixelSize` on its
     /// longest edge, decoding directly at the target size.
+    ///
+    /// Falls back to a full decode if thumbnail generation isn't possible for the
+    /// image (some sources fail `CGImageSourceCreateThumbnailAtIndex` with a
+    /// `paramErr (-50)`), so a valid image always loads.
     nonisolated private static func downsample(data: Data, maxPixelSize: CGFloat) -> UIImage? {
         let sourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
-        guard let source = CGImageSourceCreateWithData(data as CFData, sourceOptions) else {
-            return nil
+        guard let source = CGImageSourceCreateWithData(data as CFData, sourceOptions),
+              CGImageSourceGetCount(source) > 0 else {
+            return UIImage(data: data)
         }
 
-        let options = [
+        // ImageIO expects an integer pixel size.
+        let maxDimension = Int(max(maxPixelSize, 1).rounded())
+        let options: [CFString: Any] = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceShouldCacheImmediately: true,
             kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: max(maxPixelSize, 1)
-        ] as CFDictionary
+            kCGImageSourceThumbnailMaxPixelSize: maxDimension
+        ]
 
-        guard let cgImage = CGImageSourceCreateThumbnailAtIndex(source, 0, options) else {
-            return nil
+        guard let cgImage = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else {
+            // Thumbnail generation unsupported for this image — decode it fully.
+            return UIImage(data: data)
         }
         return UIImage(cgImage: cgImage)
     }

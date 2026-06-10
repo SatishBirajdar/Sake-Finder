@@ -1,3 +1,10 @@
+//
+//  SakeServiceError.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import Foundation
 
 /// Errors produced by the sake networking layer.

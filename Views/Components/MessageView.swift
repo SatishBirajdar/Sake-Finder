@@ -1,3 +1,10 @@
+//
+//  MessageView.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import SwiftUI
 
 /// Full-screen centred message used for empty and error states.

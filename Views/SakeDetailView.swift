@@ -1,3 +1,10 @@
+//
+//  SakeDetailView.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import SwiftUI
 
 /// Detail screen for a single shop: a hero image with the shop name overlaid,

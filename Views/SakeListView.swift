@@ -1,3 +1,10 @@
+//
+//  SakeListView.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import SwiftUI
 
 /// The "Popular" tab: a searchable, refreshable list of all sake shops.

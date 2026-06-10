@@ -1,3 +1,10 @@
+//
+//  MainTabView.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import SwiftUI
 
 /// Root container hosting the Popular and Favourite tabs.

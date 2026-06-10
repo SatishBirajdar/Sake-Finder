@@ -1,3 +1,10 @@
+//
+//  FavouritesView.swift
+//  Sake Finder
+//
+//  Created by Satish Birajdar on 10/06/2026.
+//
+
 import SwiftUI
 
 /// The "Favourite" tab: shows shops the user has favourited, or an empty state.
