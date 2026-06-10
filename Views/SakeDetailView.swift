@@ -2,6 +2,8 @@ import SwiftUI
 
 struct SakeDetailView: View {
     let shop: SakeShop
+    @State private var showSpinner = true
+    @State private var spinnerStartTime = Date()
 
     var body: some View {
         ScrollView {
@@ -15,6 +17,15 @@ struct SakeDetailView: View {
                             .frame(width: UIScreen.main.bounds.width - 32, height: 220)
                             .clipped()
                             .clipShape(RoundedRectangle(cornerRadius: 24))
+                            .overlay(
+                                Group {
+                                    if showSpinner && Date().timeIntervalSince(spinnerStartTime) < 4 {
+                                        ProgressView()
+                                            .progressViewStyle(.circular)
+                                            .tint(.orange)
+                                    }
+                                }
+                            )
                     case .success(let image):
                         image
                             .resizable()
@@ -74,6 +85,13 @@ struct SakeDetailView: View {
                 }
             }
             .padding()
+        }
+        .onAppear {
+            showSpinner = true
+            spinnerStartTime = Date()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                showSpinner = false
+            }
         }
         .navigationTitle("Shop Details")
         .navigationBarTitleDisplayMode(.inline)
