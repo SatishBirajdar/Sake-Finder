@@ -18,6 +18,8 @@ struct MessageView: View {
     var tint: Color = .secondary
     var actionTitle: String?
     var action: (() -> Void)?
+    /// Accessibility identifier applied to the action button (for UI tests).
+    var actionIdentifier: String?
 
     var body: some View {
         VStack(spacing: AppTheme.Layout.messageSpacing) {
@@ -40,6 +42,7 @@ struct MessageView: View {
             if let actionTitle, let action {
                 Button(actionTitle, action: action)
                     .buttonStyle(.borderedProminent)
+                    .accessibilityIdentifier(actionIdentifier ?? "")
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

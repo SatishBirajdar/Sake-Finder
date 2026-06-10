@@ -20,9 +20,11 @@ struct MainTabView: View {
         TabView {
             SakeListView(viewModel: viewModel)
                 .tabItem { Label(AppStrings.Tab.popular, systemImage: AppTheme.Icon.popularTab) }
+                .accessibilityIdentifier(AccessibilityID.Tab.popular)
 
             FavouritesView(viewModel: viewModel)
                 .tabItem { Label(AppStrings.Tab.favourite, systemImage: AppTheme.Icon.heartFill) }
+                .accessibilityIdentifier(AccessibilityID.Tab.favourite)
         }
         .environmentObject(favourites)
         .task { await viewModel.loadIfNeeded() }

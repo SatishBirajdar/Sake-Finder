@@ -34,7 +34,9 @@ struct SakeShopRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
 
             FavouriteButton(shop: shop)
+                .accessibilityIdentifier(AccessibilityID.Row.favouriteButton)
         }
         .cardBackground()
+        .accessibilityIdentifier(AccessibilityID.Row.cell(shop.name))
     }
 }

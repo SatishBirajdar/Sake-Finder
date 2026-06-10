@@ -28,8 +28,10 @@ struct FavouritesView: View {
                         title: AppStrings.Favourites.emptyTitle,
                         message: AppStrings.Favourites.emptyMessage
                     )
+                    .accessibilityIdentifier(AccessibilityID.Favourites.emptyState)
                 } else {
                     ShopListView(shops: favouriteShops)
+                        .accessibilityIdentifier(AccessibilityID.Favourites.list)
                 }
             }
             .navigationTitle(AppStrings.Favourites.title)

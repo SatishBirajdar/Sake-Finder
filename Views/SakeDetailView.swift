@@ -22,6 +22,7 @@ struct SakeDetailView: View {
             }
             .padding()
         }
+        .accessibilityIdentifier(AccessibilityID.Detail.scrollView)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle(AppStrings.Detail.title)
         .navigationBarTitleDisplayMode(.inline)
@@ -29,6 +30,7 @@ struct SakeDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 FavouriteButton(shop: shop, inactiveColor: .primary)
+                    .accessibilityIdentifier(AccessibilityID.Detail.favouriteButton)
             }
         }
     }
@@ -54,6 +56,7 @@ struct SakeDetailView: View {
                     .foregroundStyle(.white)
                     .shadow(radius: 4)
                     .padding()
+                    .accessibilityIdentifier(AccessibilityID.Detail.name)
             }
             .clipShape(RoundedRectangle(cornerRadius: AppTheme.Layout.detailImageCornerRadius))
     }
@@ -61,10 +64,12 @@ struct SakeDetailView: View {
     private var summarySection: some View {
         VStack(alignment: .leading, spacing: 8) {
             RatingView(rating: shop.rating)
+                .accessibilityIdentifier(AccessibilityID.Detail.rating)
 
             Text(shop.description)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
+                .accessibilityIdentifier(AccessibilityID.Detail.description)
         }
     }
 
@@ -79,6 +84,7 @@ struct SakeDetailView: View {
                         .font(.subheadline)
                         .foregroundStyle(.blue)
                 }
+                .accessibilityIdentifier(AccessibilityID.Detail.addressLink)
             } else {
                 Text(shop.address)
                     .foregroundStyle(.secondary)
@@ -98,6 +104,7 @@ struct SakeDetailView: View {
                         .font(.subheadline)
                         .foregroundStyle(.blue)
                 }
+                .accessibilityIdentifier(AccessibilityID.Detail.websiteLink)
             }
             .cardBackground()
         }

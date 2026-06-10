@@ -54,16 +54,20 @@ struct SakeListView: View {
                 title: errorMessage,
                 tint: .orange,
                 actionTitle: AppStrings.ErrorMessage.retry,
-                action: { Task { await viewModel.retry() } }
+                action: { Task { await viewModel.retry() } },
+                actionIdentifier: AccessibilityID.ShopList.retryButton
             )
+            .accessibilityIdentifier(AccessibilityID.ShopList.errorMessage)
         } else if visibleShops.isEmpty && isSearching {
             MessageView(
                 systemImage: AppTheme.Icon.search,
                 title: AppStrings.List.noResultsTitle,
                 message: AppStrings.List.noResultsMessage
             )
+            .accessibilityIdentifier(AccessibilityID.ShopList.noResultsMessage)
         } else {
             ShopListView(shops: visibleShops)
+                .accessibilityIdentifier(AccessibilityID.ShopList.list)
                 .refreshable { await viewModel.retry() }
         }
     }
@@ -76,12 +80,14 @@ struct SakeListView: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityIdentifier(AccessibilityID.ShopList.loadingIndicator)
     }
 
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             FavouritesBadge(count: favourites.favouriteNames.count)
+                .accessibilityIdentifier(AccessibilityID.ShopList.favouritesBadge)
         }
     }
 }

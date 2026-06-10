@@ -42,6 +42,7 @@ struct LaunchView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea(.all)
+        .accessibilityIdentifier(AccessibilityID.Launch.root)
         .task {
             try? await Task.sleep(for: .seconds(1.2))
             withAnimation(.easeInOut) {
