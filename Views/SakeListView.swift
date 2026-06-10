@@ -120,13 +120,15 @@ struct SakeShopRow: View {
                 Label(shop.address, systemImage: "mappin.and.ellipse")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
 
                 RatingView(rating: shop.rating)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 18)
                 .fill(Color(.secondarySystemBackground))
