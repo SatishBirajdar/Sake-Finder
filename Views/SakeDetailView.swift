@@ -9,10 +9,12 @@ struct SakeDetailView: View {
                 AsyncImage(url: shop.pictureURL) { phase in
                     switch phase {
                     case .empty:
-                        RoundedRectangle(cornerRadius: 24)
-                            .fill(.ultraThinMaterial)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 220)
+                        Image("noImage")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: UIScreen.main.bounds.width - 32, height: 220)
+                            .clipped()
+                            .clipShape(RoundedRectangle(cornerRadius: 24))
                     case .success(let image):
                         image
                             .resizable()
