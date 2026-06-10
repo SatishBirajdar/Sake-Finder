@@ -42,7 +42,7 @@ struct LaunchView: View {
             }
         }
         .fullScreenCover(isPresented: $isActive) {
-            SakeListView()
+            MainTabView()
         }
     }
 }

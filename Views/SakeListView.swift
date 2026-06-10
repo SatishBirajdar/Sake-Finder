@@ -1,25 +1,25 @@
 import SwiftUI
 
 struct SakeListView: View {
-    @StateObject private var viewModel = SakeListViewModel()
+    let shops: [SakeShop]
+    let isLoading: Bool
+    let errorMessage: String?
+
     @State private var searchText = ""
     @State private var isSearching = false
-    @State private var hasLoadedOnce = false
-    
+    @EnvironmentObject private var favourites: FavouritesStore
+
     private var filteredShops: [SakeShop] {
         guard !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            return viewModel.shops
+            return shops
         }
-        
-        return viewModel.shops.filter {
-            $0.name.localizedCaseInsensitiveContains(searchText)
-        }
+        return shops.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
     }
-    
+
     var body: some View {
         NavigationStack {
             Group {
-                if viewModel.isLoading {
+                if isLoading {
                     VStack(spacing: 12) {
                         ProgressView()
                         Text("Loading sake shops...")
@@ -27,7 +27,7 @@ struct SakeListView: View {
                             .foregroundStyle(.secondary)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if let errorMessage = viewModel.errorMessage {
+                } else if let errorMessage {
                     VStack(spacing: 12) {
                         Image(systemName: "exclamationmark.triangle")
                             .font(.largeTitle)
@@ -53,20 +53,22 @@ struct SakeListView: View {
             .navigationTitle(isSearching ? "" : "Sake Finder")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    FavouritesBadge(count: favourites.favouriteNames.count)
+                }
+
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         withAnimation(.easeInOut) {
                             isSearching.toggle()
-                            if !isSearching {
-                                searchText = ""
-                            }
+                            if !isSearching { searchText = "" }
                         }
                     } label: {
                         Image(systemName: isSearching ? "xmark" : "magnifyingglass")
                             .foregroundStyle(.secondary)
                     }
                 }
-                
+
                 if isSearching {
                     ToolbarItem(placement: .principal) {
                         TextField("Search shops", text: $searchText)
@@ -75,18 +77,30 @@ struct SakeListView: View {
                     }
                 }
             }
-            .task {
-                guard !hasLoadedOnce else { return }
-                hasLoadedOnce = true
-                await viewModel.loadShops()
-            }
         }
     }
 }
 
+private struct FavouritesBadge: View {
+    let count: Int
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Image(systemName: count > 0 ? "heart.fill" : "heart")
+                .foregroundStyle(count > 0 ? .red : .secondary)
+            if count > 0 {
+                Text("\(count)")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.red)
+            }
+        }
+        .fixedSize()
+    }
+}
 
 struct SakeShopRow: View {
     let shop: SakeShop
+    @EnvironmentObject private var favourites: FavouritesStore
 
     var body: some View {
         HStack(alignment: .top, spacing: 14) {
@@ -127,6 +141,16 @@ struct SakeShopRow: View {
                 RatingView(rating: shop.rating)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+
+            Button {
+                favourites.toggle(shop)
+            } label: {
+                Image(systemName: favourites.isFavourite(shop) ? "heart.fill" : "heart")
+                    .foregroundStyle(favourites.isFavourite(shop) ? .red : .secondary)
+                    .font(.system(size: 18))
+                    .padding(4)
+            }
+            .buttonStyle(.borderless)
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)

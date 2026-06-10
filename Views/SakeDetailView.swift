@@ -4,6 +4,7 @@ struct SakeDetailView: View {
     let shop: SakeShop
     @State private var showSpinner = true
     @State private var spinnerStartTime = Date()
+    @EnvironmentObject private var favourites: FavouritesStore
 
     var body: some View {
         ScrollView {
@@ -96,5 +97,15 @@ struct SakeDetailView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle("Shop Details")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    favourites.toggle(shop)
+                } label: {
+                    Image(systemName: favourites.isFavourite(shop) ? "heart.fill" : "heart")
+                        .foregroundStyle(favourites.isFavourite(shop) ? .red : .primary)
+                }
+            }
+        }
     }
 }
