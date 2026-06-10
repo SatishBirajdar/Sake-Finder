@@ -5,17 +5,17 @@ struct SakeListView: View {
     @State private var searchText = ""
     @State private var isSearching = false
     @State private var hasLoadedOnce = false
-
+    
     private var filteredShops: [SakeShop] {
         guard !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             return viewModel.shops
         }
-
+        
         return viewModel.shops.filter {
             $0.name.localizedCaseInsensitiveContains(searchText)
         }
     }
-
+    
     var body: some View {
         NavigationStack {
             Group {
@@ -66,7 +66,7 @@ struct SakeListView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-
+                
                 if isSearching {
                     ToolbarItem(placement: .principal) {
                         TextField("Search shops", text: $searchText)
@@ -83,6 +83,7 @@ struct SakeListView: View {
         }
     }
 }
+
 
 struct SakeShopRow: View {
     let shop: SakeShop

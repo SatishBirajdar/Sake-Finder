@@ -33,6 +33,8 @@ struct LaunchView: View {
                     .tint(.orange)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea(.all)
         .task {
             try? await Task.sleep(for: .seconds(1.2))
             withAnimation(.easeInOut) {

@@ -13,7 +13,7 @@ struct SakeDetailView: View {
                     case .empty:
                         Image("noImage")
                             .resizable()
-                            .scaledToFill()
+                            .scaledToFit()
                             .frame(width: UIScreen.main.bounds.width - 32, height: 220)
                             .clipped()
                             .clipShape(RoundedRectangle(cornerRadius: 24))
@@ -93,6 +93,7 @@ struct SakeDetailView: View {
                 showSpinner = false
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle("Shop Details")
         .navigationBarTitleDisplayMode(.inline)
     }
