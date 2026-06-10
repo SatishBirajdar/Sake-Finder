@@ -1,27 +1,23 @@
 import SwiftUI
 
+/// Root container hosting the Popular and Favourite tabs.
+///
+/// Owns the shared ``SakeListViewModel`` (data source) and ``FavouritesStore``
+/// (favourites state) and injects the store into the environment so any child
+/// view can read or toggle favourites.
 struct MainTabView: View {
     @StateObject private var viewModel = SakeListViewModel()
     @StateObject private var favourites = FavouritesStore()
-    @State private var hasLoadedOnce = false
 
     var body: some View {
         TabView {
-            SakeListView(
-                shops: viewModel.shops,
-                isLoading: viewModel.isLoading,
-                errorMessage: viewModel.errorMessage
-            )
-            .tabItem { Label("Popular", systemImage: "list.star") }
+            SakeListView(viewModel: viewModel)
+                .tabItem { Label(AppStrings.Tab.popular, systemImage: AppTheme.Icon.popularTab) }
 
-            FavouritesView(shops: viewModel.shops.filter { favourites.isFavourite($0) })
-                .tabItem { Label("Favourite", systemImage: "heart.fill") }
+            FavouritesView(viewModel: viewModel)
+                .tabItem { Label(AppStrings.Tab.favourite, systemImage: AppTheme.Icon.heartFill) }
         }
         .environmentObject(favourites)
-        .task {
-            guard !hasLoadedOnce else { return }
-            hasLoadedOnce = true
-            await viewModel.loadShops()
-        }
+        .task { await viewModel.loadIfNeeded() }
     }
 }

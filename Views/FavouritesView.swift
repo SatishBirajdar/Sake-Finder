@@ -1,40 +1,31 @@
 import SwiftUI
 
+/// The "Favourite" tab: shows shops the user has favourited, or an empty state.
+///
+/// Derives its content reactively from the shared shops (``SakeListViewModel``)
+/// and the favourites stored in the environment.
 struct FavouritesView: View {
-    let shops: [SakeShop]
+    @ObservedObject var viewModel: SakeListViewModel
     @EnvironmentObject private var favourites: FavouritesStore
+
+    private var favouriteShops: [SakeShop] {
+        viewModel.shops.filter { favourites.isFavourite($0) }
+    }
 
     var body: some View {
         NavigationStack {
             Group {
-                if shops.isEmpty {
-                    VStack(spacing: 16) {
-                        Image(systemName: "heart")
-                            .font(.system(size: 52))
-                            .foregroundStyle(.secondary)
-                        Text("No favourites yet")
-                            .font(.headline)
-                        Text("Tap the heart on any shop to save it here.")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 32)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                if favouriteShops.isEmpty {
+                    MessageView(
+                        systemImage: AppTheme.Icon.heart,
+                        title: AppStrings.Favourites.emptyTitle,
+                        message: AppStrings.Favourites.emptyMessage
+                    )
                 } else {
-                    List(shops) { shop in
-                        NavigationLink(destination: SakeDetailView(shop: shop)) {
-                            SakeShopRow(shop: shop)
-                        }
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets(top: 6, leading: 14, bottom: 6, trailing: 14))
-                    }
-                    .listStyle(.plain)
-                    .scrollContentBackground(.hidden)
-                    .background(Color(.systemGroupedBackground))
+                    ShopListView(shops: favouriteShops)
                 }
             }
-            .navigationTitle("Favourites")
+            .navigationTitle(AppStrings.Favourites.title)
             .navigationBarTitleDisplayMode(.inline)
         }
     }
