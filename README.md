@@ -55,7 +55,7 @@ practices rather than a throwaway prototype:
 | macOS | 13 Ventura or later (to run Xcode 15+) |
 | Xcode | 15.0 or later |
 | iOS deployment target | 17.6 |
-| Swift | 6.0 (app target), 5.0 (test target) |
+| Swift | 6.0 (app target), 6.0 (test target) |
 | Devices | iPhone and iPad (universal) |
 | Internet | Only needed once, to resolve the SPM test dependency; the app itself runs offline |
 

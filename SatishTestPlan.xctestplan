@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "9BBBEBDA-2676-4296-AD98-897C89D53C97",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Sake Finder.xcodeproj",
+        "identifier" : "E100000000000050",
+        "name" : "Sake FinderTests"
+      }
+    }
+  ],
+  "version" : 1
+}
